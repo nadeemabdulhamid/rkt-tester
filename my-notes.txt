@@ -1,0 +1,23 @@
+
+Suggested grading procedure:
+      (make sure your current terminal directory is the one which
+       immediately contains the student submission folders)
+   make an assignment specification file with tests
+   run csc-auto-check.rkt --batch  <assignment-specfile.rkt>
+   use the ...-auto-check.txt reports to grade according to the rubric
+      (for *function definition and *examples/test cases)
+   add ;;## comments to files (with point deductions, if needed)
+   run csc-collect-grades.rkt to sum up points
+       and produce ...-grade-report.txt
+   run csc-zip-folders.rkt to make zip archives of all student folders
+   zip everything back up into one archive and send back to me
+
+
+
+Notes:
+ if you get error:
+  - self-contract violation, expected: assignment?, given: (assignment …
+  it means that the path to "checker2.rkt" that is required at the top of a given assignment spec file is different than the path to "checker2.rkt" relative to "csc-auto-check.rkt". 
+   use (require (file "absolute...path/checker2.rkt"))  instead of 
+      (require "checker2/checker2.rkt") through a symbolically linked directory
+   ***>> or make sure you are running csc-auto-check.rkt using the same relative path through which the spec file is requiring checker2.rkt

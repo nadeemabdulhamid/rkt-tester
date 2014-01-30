@@ -2,7 +2,7 @@
 
 (require racket/sandbox
          2htdp/image
-         racket/gui)
+         (except-in racket/gui make-color make-pen))
 ;(require wxme)
 
 ; replaces "#reader (lib \"<old>\"" with "#reader (lib \"<new>\""

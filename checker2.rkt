@@ -249,6 +249,7 @@
 (define (render-problem-report/txt pr)
   (match pr
     [(struct problem-report (name filename evald? timeout? fnamegood? covered? (list chks ...)))
+     
      (string-append
       (format "PROBLEM: ~a\n" name)
       (format " Passed ~a out of ~a tests.\n" (count-passed-checks/problem pr)
@@ -258,7 +259,9 @@
       (render/pf (and evald? (not timeout?))) "File ran without timeout?\n"
 ;;      (render/pf covered?) "Tests cover all expressions?\n"
       "   ----\n"
-      (apply string-append (map render-check-result/txt chks))
+      (if (and fnamegood? evald? (not timeout?))
+          (apply string-append (map render-check-result/txt chks))
+          "   <<<... other tests fail ...>>>\n")
       )
      ]))
 

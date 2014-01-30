@@ -367,7 +367,7 @@ Or you can have a GUI interface:
   (let ([aspec-file #f]
         [submit-dirs '()])
     (command-line
-     #:program "csc120-check.rkt"
+     #:program "csc-auto-check.rkt"
      #:once-any
      ["--batch" assignment-file "Run in batch mode (no GUI)"
                  (set! aspec-file assignment-file)]

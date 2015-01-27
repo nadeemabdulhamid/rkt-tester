@@ -107,7 +107,7 @@
                                            (λ() (check/problem p eval fn))
                                            (problem-check-timeout)
                                            (λ() (fail-timeout/problem p eval fn)))])
-                                    (kill-evaluator eval)
+                                    (and eval (kill-evaluator eval))
                                     result)
                                   ]
                                  [_ (fail-all/problem p)]))

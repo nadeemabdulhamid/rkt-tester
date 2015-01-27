@@ -21,8 +21,7 @@ Or you can have a GUI interface:
 ;(display (find-system-path 'run-file))
 ;(newline)
 
-(require racket/sandbox    ; need this to fix problems with racket/gui/base multiple instantiation in sandboxes
-         racket/gui)
+(require racket/gui)
 (require "checker2.rkt")
 
 
@@ -92,9 +91,9 @@ Or you can have a GUI interface:
   (write-assignment-report/txt ar dir)
   (-> assignment-report? path-string? void)
   (let-values ([(base name must-be-dir?) (split-path dir)])
-    (let ([report-name (build-path dir (string-append (path->string name)
-                                                      "-" (assignment-report-short-name ar)
-                                                      "-auto-check-report.txt"))])
+    (let ([report-name (build-path dir (string-append "_" ;(path->string name)
+                                                      ;"-" (assignment-report-short-name ar) "-"
+                                                      "auto-check-report.txt"))])
       (with-output-to-file report-name
         (λ() (display (render-assignment-report/txt ar)))
         #:exists 'replace

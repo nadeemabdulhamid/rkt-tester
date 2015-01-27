@@ -1,9 +1,8 @@
 #lang racket
 
 (require racket/sandbox
-         2htdp/image
          (except-in racket/gui make-color make-pen))
-;(require wxme)
+(require wxme)
 
 ; replaces "#reader (lib \"<old>\"" with "#reader (lib \"<new>\""
 ; in the text of t (a text%) if it occurs
@@ -41,6 +40,7 @@
                                         (symbol=? lang (car pair)))
                                       HTDP-READERS))))))
 
+
 ; make-module-evaluator/submission
 ;             : bytes (#f or symbol or '(htdp ...)) -> #f or evaluator
 ; makes an evaluator for the program given in the data bytes
@@ -64,15 +64,20 @@
                       [exists "/"]
                       [read "/"]
                       )]
+                   [sandbox-eval-limits '(30 100)]
+                   [sandbox-memory-limit 200]
                    [sandbox-namespace-specs
-                    (list make-gui-namespace '2htdp/image)]
-                   )
+                    (list sandbox-make-namespace  
+                          '2htdp/image 'lang/posn
+                          )])
       (match language
         [#f (make-module-evaluator data)]
         [(? symbol? x) (make-module-evaluator data #:language x)]
         [(list 'htdp x)
          (let ([t (make-object text%)]
                [outp (open-output-bytes)])
+           ;(define-values (a b) (extract-used-classes (open-input-bytes data)))
+           ;(printf "*** ~a ~a~n" a b)
            (send t insert-port (open-input-bytes data))
            (send t move-position 'home)
            (for/list ([r (readers-below x)])

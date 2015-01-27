@@ -1,7 +1,7 @@
 #lang racket
 
 (require racket/async-channel)
-(require "eval2.rkt")
+(require "eval2.rkt" (only-in racket/sandbox kill-evaluator))
 
 
 (define check?
@@ -97,14 +97,18 @@
                         (map (λ(p s) 
                                (match s 
                                  [(cons fn bs)
-                                  (let ([eval (run-with-timeout 
-                                               (λ() (make-module-evaluator/submission bs lang))
-                                               (problem-check-timeout)
-                                               (λ() #f))])
-                                    (run-with-timeout
-                                     (λ() (check/problem p eval fn))
-                                     (problem-check-timeout)
-                                     (λ() (fail-timeout/problem p eval fn))))
+                                  (printf "FILE: ~a~n" fn)
+                                  (let* ([eval (run-with-timeout 
+                                                (λ() (make-module-evaluator/submission bs lang))
+                                                (problem-check-timeout)
+                                                (λ() #f))]
+                                         [result 
+                                          (run-with-timeout
+                                           (λ() (check/problem p eval fn))
+                                           (problem-check-timeout)
+                                           (λ() (fail-timeout/problem p eval fn)))])
+                                    (kill-evaluator eval)
+                                    result)
                                   ]
                                  [_ (fail-all/problem p)]))
                              probs submits))

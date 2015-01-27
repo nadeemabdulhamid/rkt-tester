@@ -26,6 +26,7 @@ This should be run as:
    (lambda (pth)
      (zip (string-append 
            (path->string (file-name-from-path pth))
+           "assignsubmission_file_graded"
            ".zip")
           pth))
    (find-immediate-subdirs))

@@ -156,8 +156,9 @@ This should be run as:
                   (let ([stu-rep (process-student-dir pth)])
                     (call-with-output-file 
                         (build-path pth 
-                                    (string-append (path->string (file-name-from-path pth))
-                                                   "-grade-report" 
+                                    (string-append "_"
+                                                   ;(path->string (file-name-from-path pth)) "-"
+                                                   "grade-report" 
                                                    ".txt"))
                       (lambda (op) (write-string stu-rep op))
                       #:exists 'replace)
@@ -168,7 +169,7 @@ This should be run as:
 ;              "/Users/nhamid/Documents/Data/berry/09fall/csc120/work/228-hw01"))
          ])
     (call-with-output-file
-        (build-path (current-directory) "grade-report.txt")
+        (build-path (current-directory) "_grade-report.txt")
       (lambda (op) (write-string all-rep op)) #:exists 'replace)
     
     (write-string "\nDone\n")
